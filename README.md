@@ -1,4 +1,4 @@
-# HubVibe Site Compliance Audit
+# HubVibe WCAG SEO and Security Audit
 
 **Catch accessibility, SEO, security-header and performance regressions in the pull request that caused them — not in an audit six months later.**
 
