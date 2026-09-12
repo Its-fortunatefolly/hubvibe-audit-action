@@ -8,15 +8,19 @@ Runs against your deployed preview or staging URL and fails the build if it regr
 - uses: Its-fortunatefolly/hubvibe-audit-action@v1
   with:
     url: https://staging.example.com
-    api-key: ${{ secrets.HUBVIBE_API_KEY }}
+    wallet-key: ${{ secrets.HUBVIBE_WALLET_KEY }}
 ```
 
-That's the whole integration.
+That's the whole integration. `wallet-key` is an EVM private key funded with a
+little USDC on Base: the step reads the service's payment challenge and pays
+for its own run, so there is no account to create and nothing to provision
+first. `max-price-usd` (default `0.15`) is a hard ceiling it refuses to sign
+above.
 
 ## The whole file, if you'd rather paste one
 
 Save as `.github/workflows/hubvibe-audit.yml`, edit the one URL, add
-`HUBVIBE_API_KEY` to your repository secrets. Every push to `main` and every
+`HUBVIBE_WALLET_KEY` to your repository secrets. Every push to `main` and every
 pull request is audited from then on.
 
 ```yaml
@@ -38,7 +42,8 @@ jobs:
       - uses: Its-fortunatefolly/hubvibe-audit-action@v1
         with:
           url: ${{ env.AUDIT_URL }}
-          api-key: ${{ secrets.HUBVIBE_API_KEY }}
+          wallet-key: ${{ secrets.HUBVIBE_WALLET_KEY }}
+          max-price-usd: "0.15"    # hard ceiling per call
           endpoint: bundle          # or: wcag, seo, security, performance
           fail-on-violation: true   # your regressions gate the build
           fail-on-error: false      # our outage does not
@@ -72,7 +77,7 @@ Not buried in log output. A reviewer opens the Checks tab and sees the rule, its
 - uses: Its-fortunatefolly/hubvibe-audit-action@v1
   with:
     url: https://staging.example.com
-    api-key: ${{ secrets.HUBVIBE_API_KEY }}
+    wallet-key: ${{ secrets.HUBVIBE_WALLET_KEY }}
     fail-on-error: false      # our outage never blocks your release
     fail-on-violation: true   # your regressions still do
 ```
@@ -150,7 +155,7 @@ charged twice.
   uses: Its-fortunatefolly/hubvibe-audit-action@v1
   with:
     url: https://staging.example.com
-    api-key: ${{ secrets.HUBVIBE_API_KEY }}
+    wallet-key: ${{ secrets.HUBVIBE_WALLET_KEY }}
 
 - name: Promote to production
   if: steps.audit.outputs.passed == 'true'
@@ -159,7 +164,10 @@ charged twice.
 
 ## Getting a key
 
-Keys come from [the service](https://hubvibe-io.com). Store it as a repository secret named `HUBVIBE_API_KEY`.
+Fund a wallet address with USDC on Base and store its private key as the
+repository secret `HUBVIBE_WALLET_KEY`. No ETH is needed — the payment is
+signed off-chain and the facilitator pays the gas. If you already hold a
+prepaid API key, set `api-key` instead.
 
 If you would rather not hold a key at all, the endpoints accept per-call machine payment over HTTP 402 — nothing to store, nothing to rotate.
 
