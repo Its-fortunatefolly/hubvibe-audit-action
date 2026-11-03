@@ -88,9 +88,9 @@ Not buried in log output. A reviewer opens the Checks tab and sees the rule, its
 
 **$0.05** per single audit. **$0.15** for all four as one bundle.
 
-Concretely: a repo merging 100 pull requests a month, running the full bundle on each, spends **$10/month**. Running only the accessibility check, **$3/month**. No subscription, no seat licence, no minimum — you are billed for calls you make.
+Concretely: a repo merging 100 pull requests a month, running the full bundle on each, spends **$15/month**. Running only the accessibility check, **$5/month**. No subscription, no seat licence, no minimum — you are billed for calls you make.
 
-You can also pay per call over HTTP 402 with no account at all, which is what the API is really built for. See [`/.well-known/agent.json`](https://hubvibe-io.com/.well-known/agent.json) — it lists live prices and the payment rails that can actually settle right now, and it is generated from the same catalog the routes charge from, so it cannot drift from what you are billed.
+HubVibe accepts prepaid API keys and the machine-payment rails advertised by the live service. See [`/.well-known/agent.json`](https://hubvibe-io.com/.well-known/agent.json) — it lists current prices and only the rails that can actually settle, generated from the same catalog the routes charge from so it cannot drift from what you are billed.
 
 ## Try it before wiring it up
 
@@ -169,8 +169,8 @@ repository secret `HUBVIBE_WALLET_KEY`. No ETH is needed — the payment is
 signed off-chain and the facilitator pays the gas. If you already hold a
 prepaid API key, set `api-key` instead.
 
-If you would rather not hold a key at all, the endpoints accept per-call machine payment over HTTP 402 — nothing to store, nothing to rotate.
+To buy prepaid credit by card instead, visit [`/start`](https://hubvibe-io.com/start) and store the resulting API key as `HUBVIBE_API_KEY`.
 
 ## Source
 
-Developed in the [HubVibe monorepo](https://github.com/Its-fortunatefolly/HubVibe). This repository is generated from it, because GitHub requires an action repository to contain no workflow files.
+Maintained by [HubVibe](https://github.com/Its-fortunatefolly/HubVibe). This repository contains only the client code required to run the Action. HubVibe's production workers, credentials, payment ledger, and deployment configuration remain private.

@@ -27,7 +27,7 @@
 # Those constraints are what make it installable in an enterprise pipeline, not
 # a tax on one.
 name: "HubVibe WCAG SEO and Security Audit"
-description: "Automated WCAG, SEO, security, and performance compliance audits for CI/CD pipelines."
+description: "Gate CI on rendered-page WCAG, SEO, security-header, and performance audits; pay by prepaid key or wallet."
 author: "HubVibe"
 
 branding:
